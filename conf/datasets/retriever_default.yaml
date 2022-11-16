@@ -33,3 +33,20 @@ curatedtrec_test:
   _target_: dpr.data.retriever_data.CsvQASrc
   file: data.retriever.qas.curatedtrec-test
 
+code_retrieval_cpp_test:
+  _target_: dpr.data.retriever_data.JsonQASrc
+  file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_test.json
+
+code_retrieval_cpp_test_null:
+  _target_: dpr.data.retriever_data.JsonQASrc
+  file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_test_null.json
+
+code_retrieval_cpp_test_mini:
+  _target_: dpr.data.retriever_data.JsonQASrc
+  file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_test_mini.json
+
+code_retrieval_cpp_test_mini_null:
+  _target_: dpr.data.retriever_data.JsonQASrc
+  file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_test_mini_null.json
+
+

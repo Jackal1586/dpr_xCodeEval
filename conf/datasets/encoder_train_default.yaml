@@ -6,11 +6,15 @@ nq_train:
 
 code_retrieval_cpp_train:
   _target_: dpr.data.biencoder_data.JsonQADataset
-  file: /home/kryptonyte/dataset/cpp_only/cpp_qas_train.json
+  file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_train.json
 
 code_retrieval_cpp_dev:
   _target_: dpr.data.biencoder_data.JsonQADataset
-  file: /home/kryptonyte/dataset/cpp_only/cpp_qas_dev.json
+  file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_dev.json
+
+code_retrieval_cpp_test:
+  _target_: dpr.data.biencoder_data.JsonQADataset
+  file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_test.json
 
 nq_train_hn1:
   _target_: dpr.data.biencoder_data.JsonQADataset

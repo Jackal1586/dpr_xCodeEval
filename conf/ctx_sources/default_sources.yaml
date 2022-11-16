@@ -4,3 +4,13 @@ dpr_wiki:
   _target_: dpr.data.retriever_data.CsvCtxSrc
   file: data.wikipedia_split.psgs_w100
   id_prefix: 'wiki:'
+
+dpr_code_cpp:
+  _target_: dpr.data.retriever_data.JsonCodesCtxSrc
+  file: /home/maruf/zarzis/parallel-code-corpora/cpp_code_kng_base.json
+  id_prefix: 'cf_cpp:'
+
+dpr_code_cpp_mini:
+  _target_: dpr.data.retriever_data.JsonCodesCtxSrc
+  file: /home/maruf/zarzis/parallel-code-corpora/cpp_code_kng_base_mini.json
+  id_prefix: 'cf_cpp:'

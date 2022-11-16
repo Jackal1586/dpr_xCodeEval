@@ -51,6 +51,7 @@ def gen_ctx_vectors(
     results = []
     for j, batch_start in enumerate(range(0, n, bsz)):
         batch = ctx_rows[batch_start : batch_start + bsz]
+
         batch_token_tensors = [
             tensorizer.text_to_tensor(ctx[1].text, title=ctx[1].title if insert_title else None) for ctx in batch
         ]
@@ -59,7 +60,8 @@ def gen_ctx_vectors(
         ctx_seg_batch = move_to_device(torch.zeros_like(ctx_ids_batch), cfg.device)
         ctx_attn_mask = move_to_device(tensorizer.get_attn_mask(ctx_ids_batch), cfg.device)
         with torch.no_grad():
-            _, out, _ = model(ctx_ids_batch, ctx_seg_batch, ctx_attn_mask)
+            out = model(ctx_ids_batch, ctx_attn_mask)
+            out = out.pooler_output
         out = out.cpu()
 
         ctx_ids = [r[0] for r in batch]
@@ -96,7 +98,6 @@ def main(cfg: DictConfig):
     logger.info("%s", OmegaConf.to_yaml(cfg))
 
     tensorizer, encoder, _ = init_biencoder_components(cfg.encoder.encoder_model_type, cfg, inference_only=True)
-
     encoder = encoder.ctx_model if cfg.encoder_type == "ctx" else encoder.question_model
 
     encoder, _ = setup_for_distributed_mode(
@@ -122,7 +123,6 @@ def main(cfg: DictConfig):
     model_to_load.load_state_dict(ctx_state, strict=False)
 
     logger.info("reading data source: %s", cfg.ctx_src)
-
     ctx_src = hydra.utils.instantiate(cfg.ctx_sources[cfg.ctx_src])
     all_passages_dict = {}
     ctx_src.load_data_to(all_passages_dict)
@@ -139,7 +139,6 @@ def main(cfg: DictConfig):
         len(all_passages),
     )
     shard_passages = all_passages[start_idx:end_idx]
-
     data = gen_ctx_vectors(cfg, shard_passages, encoder, tensorizer, True)
 
     file = cfg.out_file + "_" + str(cfg.shard_id)
