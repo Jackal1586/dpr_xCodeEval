@@ -15,6 +15,7 @@ import logging
 import pickle
 import time
 import zlib
+from dataclasses import asdict, dataclass
 from typing import Dict, Iterator, List, Tuple
 
 import hydra
@@ -23,6 +24,7 @@ import torch
 from flask import Flask, request
 from flask_cors import CORS
 from omegaconf import DictConfig, OmegaConf
+from sklearn.metrics import f1_score
 from torch import Tensor as T
 from torch import nn
 from tqdm import tqdm
@@ -49,7 +51,22 @@ from dpr.utils.model_utils import (
 
 logger = logging.getLogger()
 setup_logger(logger)
-dpr_retriever__, ctxs_complete_list__ = None, None
+(
+    dpr_retriever__,
+    ctxs_complete_list__,
+    ctx_meta,
+    get_tag_vector_from_tags,
+) = (None, None, None, None)
+
+
+@dataclass
+class CtxMetaData:
+    id: int
+    tags: list[str] | None
+    problem_id: str
+    lang: str
+    handle: str
+    verdict: str
 
 
 def generate_question_vectors(
@@ -620,11 +637,40 @@ def load_dpr(cfg: DictConfig):
             retriever.index.serialize(index_path)
 
     all_passages = load_all_passages(ctx_sources)
-    global dpr_retriever__, ctxs_complete_list__
+    global dpr_retriever__, ctxs_complete_list__, ctx_meta
+    ctx_meta = dict()
+    print("Reading meta data from:", cfg.ctx_metadata_file)
+    with open(cfg.ctx_metadata_file) as meta_rp:
+        for line in tqdm(meta_rp, desc="Loading metadata", miniters=262144):
+            _j = json.loads(line)
+            ctx_meta[_j["submission_id"]] = CtxMetaData(
+                id=_j["submission_id"],
+                tags=_j["tags"],
+                problem_id=_j["problem_id"],
+                lang=_j["lang"],
+                handle=_j["handle"],
+                verdict=_j["verdict"],
+            )
+            # tags_by_sub_id[_j["submission_id"]] = _j.get("tags")
     dpr_retriever__, ctxs_complete_list__ = retriever, all_passages
 
 
-def _search(question, n_docs):
+def init_tag_vector():  # -> Callable[[List[str]], np.ndarray]:
+    tag_coord_map: Dict[str, int] = {}
+    for mt in tqdm(ctx_meta.values(), desc="Loading tag_map"):
+        for tag in mt.tags:
+            if tag not in tag_coord_map:
+                tag_coord_map[tag] = len(tag_coord_map)
+
+    print(tag_coord_map.keys())
+
+    def get_tag_vector_from_tags(tags: List[str]) -> np.ndarray:
+        return np.array([1 if tag in tags else 0 for tag in tag_coord_map])
+
+    return get_tag_vector_from_tags
+
+
+def _search(question, n_docs, tags):
     # global dpr_retriever__, ctxs_complete_list__
     retriever, ctxs = dpr_retriever__, ctxs_complete_list__
     # retriever, ctxs = app.config["retriever"], app.config["ctxs"]
@@ -632,12 +678,24 @@ def _search(question, n_docs):
     # get top k results
     top_results_and_scores = retriever.get_top_docs(questions_tensor.numpy(), n_docs)[0]
 
-    top_results, _ = top_results_and_scores
+    top_results, tmp = top_results_and_scores
 
     top_codes = []
-
+    # print(tmp, top_results)
     for tr in top_results:
-        top_codes.append(ctxs[tr].text)
+        id = int(tr.split(":")[-1])
+        top_codes.append(
+            {
+                "text": ctxs[tr].text,
+                "meta": asdict(ctx_meta[id]),
+                "f1": f1_score(
+                    get_tag_vector_from_tags(tags),
+                    get_tag_vector_from_tags(ctx_meta[id].tags),
+                )
+                if isinstance(tags, list)
+                else None,
+            }
+        )
 
     return top_codes
 
@@ -662,7 +720,8 @@ def main(cfg: DictConfig):
     #     # print(OmegaConf.to_yaml(cfg))
 
     load_dpr(cfg)
-
+    global get_tag_vector_from_tags
+    get_tag_vector_from_tags = init_tag_vector()
     app.run()
 
 
@@ -671,7 +730,8 @@ def search():
     # retriever, ctxs = g.dpr["retriever"], g.dpr["ctxs"]
 
     # print(retriever.index)
-    return _search(request.get_json()["text"], 5)
+    req_json = request.get_json()
+    return _search(req_json["text"], req_json["n_results"], req_json["tags"])
 
 
 if __name__ == "__main__":
