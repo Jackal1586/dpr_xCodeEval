@@ -718,10 +718,11 @@ def main(cfg: DictConfig):
     #         config_name="dense_retriever_server", return_hydra_config=True
     #     )
     #     # print(OmegaConf.to_yaml(cfg))
-
+    st_time = time.time()
     load_dpr(cfg)
     global get_tag_vector_from_tags
     get_tag_vector_from_tags = init_tag_vector()
+    logger.info("Server booted in %f sec.", time.time()-st_time)
     app.run()
 
 
