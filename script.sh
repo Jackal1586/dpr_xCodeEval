@@ -70,3 +70,16 @@ model_file=/home/maruf/zarzis/zarzis/outputs/2022-08-01/16-00-23/dumped/dpr_bien
 ctx_src=dpr_code_cpp \
 shard_id=0 num_shards=1 \
 out_file=/home/maruf/zarzis/zarzis/outputs/cpp_kng_base_emb
+
+python dense_retriever_server.py \
+model_file=/home/zarzis/code/python/zarzis/dpr_deps/dpr_biencoder.39 \
+qa_dataset=code_retrieval_cpp_test_null \
+ctx_datatsets=[dpr_code_cpp] \
+encoded_ctx_files=[/home/zarzis/code/python/zarzis/dpr_deps/_0] \
+out_file=/home/zarzis/code/python/zarzis/dpr_deps/dense_retriever_out
+
+python generate_dense_embeddings.py \
+model_file=/home/zarzis/code/python/zarzis/dpr_deps/dpr_biencoder.39 \
+ctx_src=dpr_code_cpp_small \
+shard_id=0 num_shards=1 \
+out_file=/home/maruf/zarzis/zarzis/outputs/
