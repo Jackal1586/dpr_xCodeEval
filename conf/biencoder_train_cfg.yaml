@@ -5,8 +5,42 @@ defaults:
   - train: biencoder_default
   - datasets: encoder_train_default
 
-train_datasets:
+train_datasets: 
+#  - C#_code_code_train
+#  - CPP_code_code_train
+#  - D_code_code_train
+#  - Go_code_code_train
+#  - Haskell_code_code_train
+#  - Java_code_code_train
+#  - JavaScript_code_code_train
+#  - Kotlin_code_code_train
+#  - Ocaml_code_code_train
+#  - Pascal_code_code_train
+#  - Perl_code_code_train
+#  - PHP_code_code_train
+#  - Python_code_code_train
+#  - Ruby_code_code_train
+#  - Rust_code_code_train
+#  - Scala_code_code_train
+  - all_code_code_train
 dev_datasets:
+#  - C#_code_code_dev
+#  - CPP_code_code_dev
+#  - D_code_code_dev
+#  - Go_code_code_dev
+#  - Haskell_code_code_dev
+#  - Java_code_code_dev
+#  - JavaScript_code_code_dev
+#  - Kotlin_code_code_dev
+#  - Ocaml_code_code_dev
+#  - Pascal_code_code_dev
+#  - Perl_code_code_dev
+#  - PHP_code_code_dev
+#  - Python_code_code_dev
+#  - Ruby_code_code_dev
+#  - Rust_code_code_dev
+#  - Scala_code_code_dev
+  - all_code_code_dev
 output_dir:
 train_sampling_rates:
 loss_scale_factors:
@@ -14,7 +48,7 @@ loss_scale_factors:
 # Whether to lower case the input text. Set True for uncased models, False for the cased ones.
 do_lower_case: False
 
-val_av_rank_start_epoch: 30
+val_av_rank_start_epoch: 10
 seed: 12345
 checkpoint_file_name: dpr_biencoder
 

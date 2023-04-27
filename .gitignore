@@ -1,5 +1,6 @@
-*__pycache__*
-*.jsonl
-dist
-downloads
-outputs
+__pycache__
+dumped/
+logs/
+outputs/
+*.7z
+*.egg-info
