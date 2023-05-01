@@ -87,44 +87,26 @@ class BiEncoder(nn.Module):
         sequence_output = None
         pooled_output = None
         hidden_states = None
-        # print(ids)
-        # input(":")
         if ids is not None:
             if fix_encoder:
                 with torch.no_grad():
-                    # sequence_output, pooled_output, hidden_states = sub_model(
-                    #     ids,
-                    #     segments,
-                    #     attn_mask
-                    # )
-                    output = sub_model(
+                    sequence_output, pooled_output, hidden_states = sub_model(
                         ids,
-                        attn_mask
+                        segments,
+                        attn_mask,
+                        representation_token_pos=representation_token_pos,
                     )
-                    sequence_output = output.last_hidden_state
-                    pooled_output = output.pooler_output
-                    hidden_states = output.hidden_states
 
                 if sub_model.training:
                     sequence_output.requires_grad_(requires_grad=True)
                     pooled_output.requires_grad_(requires_grad=True)
             else:
-                # sequence_output, pooled_output, hidden_states = sub_model(
-                #     ids,
-                #     segments,
-                #     attn_mask
-                # )
-                output = sub_model(
+                sequence_output, pooled_output, hidden_states = sub_model(
                     ids,
-                    attn_mask
+                    segments,
+                    attn_mask,
+                    representation_token_pos=representation_token_pos,
                 )
-                sequence_output = output.last_hidden_state
-                pooled_output = output.pooler_output
-                hidden_states = output.hidden_states
-                # print(sequence_output)
-                # print(pooled_output)
-                # print(hidden_states)
-                # input(":")
 
         return sequence_output, pooled_output, hidden_states
 
@@ -183,9 +165,7 @@ class BiEncoder(nn.Module):
         ctx_tensors = []
         positive_ctx_indices = []
         hard_neg_ctx_indices = []
-        # print("hard_neg", num_hard_negatives)
-        # print("other_neg", num_other_negatives)
-        # input(":")
+
         for sample in samples:
             # ctx+ & [ctx-] composition
             # as of now, take the first(gold) ctx+ only
@@ -246,9 +226,7 @@ class BiEncoder(nn.Module):
 
         ctxs_tensor = torch.cat([ctx.view(1, -1) for ctx in ctx_tensors], dim=0)
         questions_tensor = torch.cat([q.view(1, -1) for q in question_tensors], dim=0)
-        # print("ctxs_tensor", ctxs_tensor.shape)
-        # print("ques_tensor", questions_tensor.shape)
-        # input()
+
         ctx_segments = torch.zeros_like(ctxs_tensor)
         question_segments = torch.zeros_like(questions_tensor)
 
@@ -288,26 +266,13 @@ class BiEncoderNllLoss(object):
         loss modifications. For example - weighted NLL with different factors for hard vs regular negatives.
         :return: a tuple of loss value and amount of correct predictions per batch
         """
-        # print("q_vectors", q_vectors.shape)
-        # print("ctx_vectors", ctx_vectors.shape)
-        # input(":")
         scores = self.get_scores(q_vectors, ctx_vectors)
 
         if len(q_vectors.size()) > 1:
             q_num = q_vectors.size(0)
             scores = scores.view(q_num, -1)
 
-        def log_softmax(x):
-            x = x.cpu().detach().numpy()
-            c = x.max()
-            logsumexp = np.log(np.exp(x - c).sum())
-            return x - c - logsumexp
-
-        # print(scores)
-        # print(log_softmax(scores))
-        # input()
         softmax_scores = F.log_softmax(scores, dim=1)
-        # positive_idx_per_question[0]+=1
 
         loss = F.nll_loss(
             softmax_scores,
@@ -317,8 +282,7 @@ class BiEncoderNllLoss(object):
 
         max_score, max_idxs = torch.max(softmax_scores, 1)
         correct_predictions_count = (max_idxs == torch.tensor(positive_idx_per_question).to(max_idxs.device)).sum()
-        # print(softmax_scores)
-        # input(":")
+
         if loss_scale:
             loss.mul_(loss_scale)
 

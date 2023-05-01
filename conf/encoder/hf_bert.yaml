@@ -4,8 +4,8 @@
 encoder_model_type: hf_bert
 
 # HuggingFace's config name for model initialization
-pretrained_model_cfg: microsoft/codebert-base
-# pretrained_model_cfg: roberta-base
+# pretrained_model_cfg: microsoft/codebert-base
+pretrained_model_cfg: bigcode/bigcode-encoder
 
 # Some encoders need to be initialized from a file
 pretrained_file:
@@ -14,7 +14,7 @@ pretrained_file:
 projection_dim: 0
 
 # Max length of the encoder input sequence
-sequence_length: 510
+sequence_length: 512
 
 dropout: 0.1
 

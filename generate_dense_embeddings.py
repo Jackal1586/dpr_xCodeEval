@@ -25,13 +25,12 @@ from torch import nn
 from dpr.data.biencoder_data import BiEncoderPassage
 from dpr.models import init_biencoder_components
 from dpr.options import set_cfg_params_from_state, setup_cfg_gpu, setup_logger
-
 from dpr.utils.data_utils import Tensorizer
 from dpr.utils.model_utils import (
-    setup_for_distributed_mode,
     get_model_obj,
     load_states_from_checkpoint,
     move_to_device,
+    setup_for_distributed_mode,
 )
 
 logger = logging.getLogger()
@@ -51,17 +50,22 @@ def gen_ctx_vectors(
     results = []
     for j, batch_start in enumerate(range(0, n, bsz)):
         batch = ctx_rows[batch_start : batch_start + bsz]
-
         batch_token_tensors = [
-            tensorizer.text_to_tensor(ctx[1].text, title=ctx[1].title if insert_title else None) for ctx in batch
+            tensorizer.text_to_tensor(
+                ctx[1].text, title=ctx[1].title if insert_title else None
+            )
+            for ctx in batch
         ]
 
-        ctx_ids_batch = move_to_device(torch.stack(batch_token_tensors, dim=0), cfg.device)
+        ctx_ids_batch = move_to_device(
+            torch.stack(batch_token_tensors, dim=0), cfg.device
+        )
         ctx_seg_batch = move_to_device(torch.zeros_like(ctx_ids_batch), cfg.device)
-        ctx_attn_mask = move_to_device(tensorizer.get_attn_mask(ctx_ids_batch), cfg.device)
+        ctx_attn_mask = move_to_device(
+            tensorizer.get_attn_mask(ctx_ids_batch), cfg.device
+        )
         with torch.no_grad():
-            out = model(ctx_ids_batch, ctx_attn_mask)
-            out = out.pooler_output
+            _, out, _ = model(ctx_ids_batch, ctx_seg_batch, ctx_attn_mask)
         out = out.cpu()
 
         ctx_ids = [r[0] for r in batch]
@@ -74,9 +78,16 @@ def gen_ctx_vectors(
 
         # TODO: refactor to avoid 'if'
         if extra_info:
-            results.extend([(ctx_ids[i], out[i].view(-1).numpy(), *extra_info[i]) for i in range(out.size(0))])
+            results.extend(
+                [
+                    (ctx_ids[i], out[i].view(-1).numpy(), *extra_info[i])
+                    for i in range(out.size(0))
+                ]
+            )
         else:
-            results.extend([(ctx_ids[i], out[i].view(-1).numpy()) for i in range(out.size(0))])
+            results.extend(
+                [(ctx_ids[i], out[i].view(-1).numpy()) for i in range(out.size(0))]
+            )
 
         if total % 10 == 0:
             logger.info("Encoded passages %d", total)
@@ -97,7 +108,10 @@ def main(cfg: DictConfig):
     logger.info("CFG:")
     logger.info("%s", OmegaConf.to_yaml(cfg))
 
-    tensorizer, encoder, _ = init_biencoder_components(cfg.encoder.encoder_model_type, cfg, inference_only=True)
+    tensorizer, encoder, _ = init_biencoder_components(
+        cfg.encoder.encoder_model_type, cfg, inference_only=True
+    )
+
     encoder = encoder.ctx_model if cfg.encoder_type == "ctx" else encoder.question_model
 
     encoder, _ = setup_for_distributed_mode(
@@ -118,11 +132,14 @@ def main(cfg: DictConfig):
 
     prefix_len = len("ctx_model.")
     ctx_state = {
-        key[prefix_len:]: value for (key, value) in saved_state.model_dict.items() if key.startswith("ctx_model.")
+        key[prefix_len:]: value
+        for (key, value) in saved_state.model_dict.items()
+        if key.startswith("ctx_model.")
     }
     model_to_load.load_state_dict(ctx_state, strict=False)
 
     logger.info("reading data source: %s", cfg.ctx_src)
+
     ctx_src = hydra.utils.instantiate(cfg.ctx_sources[cfg.ctx_src])
     all_passages_dict = {}
     ctx_src.load_data_to(all_passages_dict)
@@ -139,6 +156,7 @@ def main(cfg: DictConfig):
         len(all_passages),
     )
     shard_passages = all_passages[start_idx:end_idx]
+
     data = gen_ctx_vectors(cfg, shard_passages, encoder, tensorizer, True)
 
     file = cfg.out_file + "_" + str(cfg.shard_id)

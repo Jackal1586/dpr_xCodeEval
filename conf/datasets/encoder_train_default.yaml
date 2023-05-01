@@ -1,405 +1,53 @@
 # @package _group_
 
 nq_train:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.nq-train
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.nq-train
 
-code_retrieval_cpp_train:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: /export/home2/sbmaruf/zarzis/cpp_only/v3_cpp_qas_train.json
+cpp_cr_train:
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: /home/zarzis/code/python/dpr_dataset_prep/v3_cpp_qas_train.json
 
-code_retrieval_cpp_dev:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: /export/home2/sbmaruf/zarzis/cpp_only/v3_cpp_qas_dev.json
-
-code_retrieval_cpp_test:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: /export/home2/sbmaruf/zarzis/cpp_only/v3_cpp_qas_test.json
+cpp_cr_dev:
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: /home/zarzis/code/python/dpr_dataset_prep/v3_cpp_qas_dev.json
 
 nq_train_hn1:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.nq-adv-hn-train
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.nq-adv-hn-train
 
 nq_dev:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.nq-dev
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.nq-dev
 
 trivia_train:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.trivia-train
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.trivia-train
 
 trivia_dev:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.trivia-dev
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.trivia-dev
 
 squad1_train:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.squad1-train
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.squad1-train
 
 squad1_dev:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.squad1-dev
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.squad1-dev
 
 webq_train:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.webq-train
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.webq-train
 
 webq_dev:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.webq-dev
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.webq-dev
 
 curatedtrec_train:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.curatedtrec-train
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.curatedtrec-train
 
 curatedtrec_dev:
-  _target_: dpr.data.biencoder_data.JsonQADataset
-  file: data.retriever.curatedtrec-dev
-
-C#_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_code_code_dev_file
-C#_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_code_code_test_file
-C#_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_code_code_train_file
-
-C#_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_nl_code_dev_file
-C#_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_nl_code_test_file
-C#_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_nl_code_train_file
-CPP_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/CPP_code_code_dev_file
-CPP_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/CPP_code_code_test_file
-CPP_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/CPP_code_code_train_file
-
-CPP_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/CPP_nl_code_dev_file
-CPP_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/CPP_nl_code_test_file
-CPP_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/CPP_nl_code_train_file
-D_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/D_code_code_dev_file
-D_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/D_code_code_test_file
-D_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/D_code_code_train_file
-
-D_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/D_nl_code_dev_file
-D_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/D_nl_code_test_file
-D_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/D_nl_code_train_file
-Go_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Go_code_code_dev_file
-Go_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Go_code_code_test_file
-Go_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Go_code_code_train_file
-
-Go_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Go_nl_code_dev_file
-Go_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Go_nl_code_test_file
-Go_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Go_nl_code_train_file
-Haskell_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Haskell_code_code_dev_file
-Haskell_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Haskell_code_code_test_file
-Haskell_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Haskell_code_code_train_file
-
-Haskell_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Haskell_nl_code_dev_file
-Haskell_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Haskell_nl_code_test_file
-Haskell_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Haskell_nl_code_train_file
-Java_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Java_code_code_dev_file
-Java_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Java_code_code_test_file
-Java_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Java_code_code_train_file
-
-Java_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Java_nl_code_dev_file
-Java_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Java_nl_code_test_file
-Java_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Java_nl_code_train_file
-JavaScript_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/JavaScript_code_code_dev_file
-JavaScript_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/JavaScript_code_code_test_file
-JavaScript_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/JavaScript_code_code_train_file
-
-JavaScript_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/JavaScript_nl_code_dev_file
-JavaScript_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/JavaScript_nl_code_test_file
-JavaScript_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/JavaScript_nl_code_train_file
-Kotlin_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Kotlin_code_code_dev_file
-Kotlin_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Kotlin_code_code_test_file
-Kotlin_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Kotlin_code_code_train_file
-
-Kotlin_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Kotlin_nl_code_dev_file
-Kotlin_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Kotlin_nl_code_test_file
-Kotlin_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Kotlin_nl_code_train_file
-Ocaml_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ocaml_code_code_dev_file
-Ocaml_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ocaml_code_code_test_file
-Ocaml_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ocaml_code_code_train_file
-
-Ocaml_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ocaml_nl_code_dev_file
-Ocaml_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ocaml_nl_code_test_file
-Ocaml_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ocaml_nl_code_train_file
-Pascal_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Pascal_code_code_dev_file
-Pascal_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Pascal_code_code_test_file
-Pascal_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Pascal_code_code_train_file
-
-Pascal_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Pascal_nl_code_dev_file
-Pascal_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Pascal_nl_code_test_file
-Pascal_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Pascal_nl_code_train_file
-Perl_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Perl_code_code_dev_file
-Perl_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Perl_code_code_test_file
-Perl_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Perl_code_code_train_file
-
-Perl_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Perl_nl_code_dev_file
-Perl_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Perl_nl_code_test_file
-Perl_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Perl_nl_code_train_file
-PHP_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/PHP_code_code_dev_file
-PHP_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/PHP_code_code_test_file
-PHP_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/PHP_code_code_train_file
-
-PHP_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/PHP_nl_code_dev_file
-PHP_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/PHP_nl_code_test_file
-PHP_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/PHP_nl_code_train_file
-Python_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Python_code_code_dev_file
-Python_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Python_code_code_test_file
-Python_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Python_code_code_train_file
-
-Python_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Python_nl_code_dev_file
-Python_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Python_nl_code_test_file
-Python_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Python_nl_code_train_file
-Ruby_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ruby_code_code_dev_file
-Ruby_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ruby_code_code_test_file
-Ruby_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ruby_code_code_train_file
-
-Ruby_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ruby_nl_code_dev_file
-Ruby_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ruby_nl_code_test_file
-Ruby_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Ruby_nl_code_train_file
-Rust_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Rust_code_code_dev_file
-Rust_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Rust_code_code_test_file
-Rust_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Rust_code_code_train_file
-
-Rust_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Rust_nl_code_dev_file
-Rust_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Rust_nl_code_test_file
-Rust_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Rust_nl_code_train_file
-Scala_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Scala_code_code_dev_file
-Scala_code_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Scala_code_code_test_file
-Scala_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Scala_code_code_train_file
-
-Scala_nl_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Scala_nl_code_dev_file
-Scala_nl_code_test:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Scala_nl_code_test_file
-Scala_nl_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/Scala_nl_code_train_file
-all_code_code_train:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /home/sbmaruf/xCodeEval/retrieval_code_code/train/*file*.jsonl
-all_code_code_dev:
-  _target_: dpr.data.biencoder_data.JsonlRetDataset
-  file: /home/sbmaruf/xCodeEval/retrieval_code_code/dev/*file*.jsonl
-
-
-
-# C#_code_code_dev
-# CPP_code_code_dev
-# D_code_code_dev
-# Go_code_code_dev
-# Haskell_code_code_dev
-# Java_code_code_dev
-# JavaScript_code_code_dev
-# Kotlin_code_code_dev
-# Ocaml_code_code_dev
-# Pascal_code_code_dev
-# Perl_code_code_dev
-# PHP_code_code_dev
-# Python_code_code_dev
-# Ruby_code_code_dev
-# Rust_code_code_dev
-# Scala_code_code_dev
-
-
-# C#_code_code_train
-# CPP_code_code_train
-# D_code_code_train
-# Go_code_code_train
-# Haskell_code_code_train
-# Java_code_code_train
-# JavaScript_code_code_train
-# Kotlin_code_code_train
-# Ocaml_code_code_train
-# Pascal_code_code_train
-# Perl_code_code_train
-# PHP_code_code_train
-# Python_code_code_train
-# Ruby_code_code_train
-# Rust_code_code_train
-# Scala_code_code_train
+    _target_: dpr.data.biencoder_data.JsonQADataset
+    file: data.retriever.curatedtrec-dev

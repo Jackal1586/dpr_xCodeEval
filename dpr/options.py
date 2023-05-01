@@ -33,7 +33,7 @@ def set_cfg_params_from_state(state: dict, cfg: DictConfig):
     if not state:
         return
 
-    cfg.do_lower_case = state["do_lower_case"]
+    cfg.do_lower_case = state["do_lower_case"] if "do_lower_case" in state else False
 
     if "encoder" in state:
         saved_encoder_params = state["encoder"]
@@ -90,7 +90,9 @@ def setup_cfg_gpu(cfg):
     logger.info("Env WORLD_SIZE=%s", ws)
 
     if cfg.distributed_port and cfg.distributed_port > 0:
-        logger.info("distributed_port is specified, trying to init distributed mode from SLURM params ...")
+        logger.info(
+            "distributed_port is specified, trying to init distributed mode from SLURM params ..."
+        )
         init_method, local_rank, world_size, device = _infer_slurm_init(cfg)
 
         logger.info(
@@ -108,11 +110,18 @@ def setup_cfg_gpu(cfg):
         device = str(torch.device("cuda", device))
 
         torch.distributed.init_process_group(
-            backend="nccl", init_method=init_method, world_size=world_size, rank=local_rank
+            backend="nccl",
+            init_method=init_method,
+            world_size=world_size,
+            rank=local_rank,
         )
 
     elif cfg.local_rank == -1 or cfg.no_cuda:  # single-node multi-gpu (or cpu) mode
-        device = str(torch.device("cuda" if torch.cuda.is_available() and not cfg.no_cuda else "cpu"))
+        device = str(
+            torch.device(
+                "cuda" if torch.cuda.is_available() and not cfg.no_cuda else "cpu"
+            )
+        )
         cfg.n_gpu = torch.cuda.device_count()
     else:  # distributed mode
         torch.cuda.set_device(cfg.local_rank)
@@ -149,7 +158,9 @@ def _infer_slurm_init(cfg) -> Tuple[str, int, int, int]:
     distributed_init_method = None
     device_id = None
     try:
-        hostnames = subprocess.check_output(["scontrol", "show", "hostnames", node_list])
+        hostnames = subprocess.check_output(
+            ["scontrol", "show", "hostnames", node_list]
+        )
         distributed_init_method = "tcp://{host}:{port}".format(
             host=hostnames.split()[0].decode("utf-8"),
             port=cfg.distributed_port,
@@ -192,7 +203,9 @@ def setup_logger(logger):
     logger.setLevel(logging.INFO)
     if logger.hasHandlers():
         logger.handlers.clear()
-    log_formatter = logging.Formatter("[%(thread)s] %(asctime)s [%(levelname)s] %(name)s: %(message)s")
+    log_formatter = logging.Formatter(
+        "[%(thread)s] %(asctime)s [%(levelname)s] %(name)s: %(message)s"
+    )
     console = logging.StreamHandler()
     console.setFormatter(log_formatter)
     logger.addHandler(console)

@@ -1,6 +1,6 @@
 defaults:
-    - encoder: hf_bert
-    - ctx_sources: default_sources
+  - encoder: hf_bert
+  - ctx_sources: default_sources
 
 # A trained bi-encoder checkpoint file to initialize the model
 model_file:
@@ -24,7 +24,7 @@ shard_id: 0
 num_shards: 1
 
 # Batch size for the passage encoder forward pass (works in DataParallel mode)
-batch_size: 2048
+batch_size: 32
 
 tables_as_passages: False
 
@@ -35,6 +35,7 @@ tables_chunk_sz: 100
 
 # TODO
 tables_split_type: type1
+
 
 # TODO: move to a conf group
 # local_rank for distributed training on gpus

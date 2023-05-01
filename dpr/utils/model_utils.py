@@ -7,6 +7,7 @@
 
 import collections
 import glob
+import json
 import logging
 import os
 from typing import List
@@ -15,6 +16,7 @@ import torch
 from torch import nn
 from torch.optim.lr_scheduler import LambdaLR
 from torch.serialization import default_restore_location
+from transformers import AutoModel, AutoTokenizer
 
 logger = logging.getLogger()
 
@@ -48,7 +50,9 @@ def setup_for_distributed_mode(
 
             apex.amp.register_half_function(torch, "einsum")
         except ImportError:
-            raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
+            raise ImportError(
+                "Please install apex from https://www.github.com/nvidia/apex to use fp16 training."
+            )
 
         model, optimizer = amp.initialize(model, optimizer, opt_level=fp16_opt_level)
 
@@ -92,7 +96,10 @@ def move_to_device(sample, device):
         if torch.is_tensor(maybe_tensor):
             return maybe_tensor.to(device)
         elif isinstance(maybe_tensor, dict):
-            return {key: _move_to_device(value, device) for key, value in maybe_tensor.items()}
+            return {
+                key: _move_to_device(value, device)
+                for key, value in maybe_tensor.items()
+            }
         elif isinstance(maybe_tensor, list):
             return [_move_to_device(x, device) for x in maybe_tensor]
         elif isinstance(maybe_tensor, tuple):
@@ -121,7 +128,8 @@ def get_schedule_linear(
             return float(current_step) / float(max(1, warmup_steps))
         return max(
             1e-7,
-            float(total_training_steps - current_step) / float(max(1, total_training_steps - warmup_steps)),
+            float(total_training_steps - current_step)
+            / float(max(1, total_training_steps - warmup_steps)),
         )
 
     return LambdaLR(optimizer, lr_lambda, last_epoch)
@@ -146,7 +154,11 @@ def get_model_file(args, file_prefix) -> str:
     if args.model_file and os.path.exists(args.model_file):
         return args.model_file
 
-    out_cp_files = glob.glob(os.path.join(args.output_dir, file_prefix + "*")) if args.output_dir else []
+    out_cp_files = (
+        glob.glob(os.path.join(args.output_dir, file_prefix + "*"))
+        if args.output_dir
+        else []
+    )
     logger.info("Checkpoint files %s", out_cp_files)
     model_file = None
 
@@ -157,6 +169,31 @@ def get_model_file(args, file_prefix) -> str:
 
 def load_states_from_checkpoint(model_file: str) -> CheckpointState:
     logger.info("Reading saved model from %s", model_file)
-    state_dict = torch.load(model_file, map_location=lambda s, l: default_restore_location(s, "cpu"))
+    if os.path.exists(model_file):
+        state_dict = torch.load(
+            model_file, map_location=lambda s, l: default_restore_location(s, "cpu")
+        )
+    else:
+        model = AutoModel.from_pretrained(model_file, use_auth_token=True)
+        state_dict = model.state_dict()
+        optimizer = torch.optim.Adam(model.parameters())
+        optimizer_dict = {"optimizer": optimizer.state_dict()}
+        scheduler_dict = {
+            "scheduler": torch.optim.lr_scheduler.StepLR(
+                optimizer, step_size=1
+            ).state_dict()
+        }
+        offset = 0
+        epoch = 1
+        encoder_params = json.loads(model.config.to_json_string())
+        return CheckpointState(
+            model_dict=state_dict,
+            optimizer_dict=optimizer_dict,
+            scheduler_dict=scheduler_dict,
+            offset=offset,
+            epoch=epoch,
+            encoder_params=encoder_params,
+        )
+        # print(state_dict, state_dict.keys())
     logger.info("model_state_dict keys %s", state_dict.keys())
     return CheckpointState(**state_dict)
