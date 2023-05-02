@@ -4,3 +4,11 @@ logs/
 outputs/
 *.7z
 *.egg-info
+*.out
+*.log
+*.json
+*.txt
+dpr_deps
+downloads
+*.jsonl
+dist

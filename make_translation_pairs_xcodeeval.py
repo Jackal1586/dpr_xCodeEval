@@ -4,25 +4,25 @@ import os
 import jsonlines
 from tqdm import tqdm
 
+def get_file_name(out_dir, lang):
+	return os.path.join(out_dir, f"lang.jsonl")
 
 def main(train_data_path, out_dir):
     jfp_by_lang = {}
-
-    def get_file_name(lang):
-        return os.path.join(out_dir, f"lang.jsonl")
 
     with jsonlines.open(train_data_path) as train_data_rp:
         for data in tqdm(train_data_rp):
             lang = data["lang_cluster"]
             if lang not in jfp_by_lang:
-                print(f"Open {get_file_name(lang)}")
-                jfp_by_lang[lang] = jsonlines.open(get_file_name(lang), "w")
+                print(f"Open {get_file_name(out_dir, lang)}")
+                jfp_by_lang[lang] = jsonlines.open(get_file_name(out_dir, lang), "w")
 
             jfp_by_lang[lang].write(data)
 
     for lang, jfp in jfp_by_lang.items():
         jfp.close()
-        print(f"Close {get_file_name(lang)}")
+        print(f"Close {get_file_name(out_dir, lang)}")
+
 
 
 def parse_args():
@@ -43,6 +43,27 @@ def parse_args():
 
     return parser.parse_args()
 
+def make_pairs(data_path, lang1, lang2):
+    # make dir to store embedding
+    embedding_dir = os.path.join(data_path, "emb_temp_store")
+    os.makedirs(embedding_dir, exist_ok=True)
+    # group codes by src_uid of lang2
+    lang2_dataset_path = os.path.join(data_path, get_file_name(data_path, lang2))
+    lang2_dt_by_src_uid = {}
+    with jsonlines.open(lang2_dataset_path) as lang2_dt_jrp:
+        for dt in tqdm(lang2_dt_jrp):
+            src_uid = dt["src_uid"]
+            if src_uid not in lang2_dt_by_src_uid:
+                lang2_dt_by_src_uid[src_uid] = []
+            lang2_dt_by_src_uid[src_uid].append(dt)
+    # embed each group
+    
+    # iterate over data of lang1
+    
+    ## for given src_uid retrieve  from that split
+    
+    # delete embedding dir
+    pass
 
 if __name__ == "__main__":
     args = parse_args()
