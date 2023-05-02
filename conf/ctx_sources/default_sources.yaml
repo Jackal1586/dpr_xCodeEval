@@ -1,0 +1,52 @@
+# @package _group_
+
+dpr_wiki:
+    _target_: dpr.data.retriever_data.CsvCtxSrc
+    file: data.wikipedia_split.psgs_w100
+    id_prefix: 'wiki:'
+
+dpr_code_cpp:
+  _target_: dpr.data.retriever_data.JsonCodesCtxSrc
+  file: /home/maruf/zarzis/zarzis/dpr_deps/cpp_kng_base.json
+  id_prefix: 'cf_cpp:'
+
+dpr_code_cpp_mini:
+  _target_: dpr.data.retriever_data.JsonCodesCtxSrc
+  file: /home/maruf/zarzis/parallel-code-corpora/cpp_code_kng_base_mini.json
+  id_prefix: 'cf_cpp:'
+
+dpr_code_cpp_small:
+  _target_: dpr.data.retriever_data.JsonCodesCtxSrc
+  file: /home/maruf/zarzis/zarzis/dpr_deps/cpp_kng_base_small.json
+  id_prefix: 'cf_cpp:'
+
+
+# C#_code_retrieval_corpus.jsonl
+# CPP_code_retrieval_corpus.jsonl
+# D_code_retrieval_corpus.jsonl
+# Go_code_retrieval_corpus.jsonl
+# Haskell_code_retrieval_corpus.jsonl
+# Java_code_retrieval_corpus.jsonl
+# JavaScript_code_retrieval_corpus.jsonl
+# Kotlin_code_retrieval_corpus.jsonl
+# Ocaml_code_retrieval_corpus.jsonl
+# Pascal_code_retrieval_corpus.jsonl
+# Perl_code_retrieval_corpus.jsonl
+# PHP_code_retrieval_corpus.jsonl
+# Python_code_retrieval_corpus.jsonl
+# Ruby_code_retrieval_corpus.jsonl
+# Rust_code_retrieval_corpus.jsonl
+# Scala_code_retrieval_corpus.jsonl
+   _target_: dpr.data.retriever_data.JsonCodesCtxSrc
+    file: /home/zarzis/code/python/zarzis/dpr_deps/cpp_code_kng_base.json
+    id_prefix: 'cf_cpp:'
+
+dpr_code_cpp_mini:
+    _target_: dpr.data.retriever_data.JsonCodesCtxSrc
+    file: /home/maruf/zarzis/parallel-code-corpora/cpp_code_kng_base_mini.json
+    id_prefix: 'cf_cpp:'
+
+dpr_code_cpp_small:
+    _target_: dpr.data.retriever_data.JsonCodesCtxSrc
+    file: /home/zarzis/code/python/zarzis/dpr_deps/cpp_kng_base_small.json
+    id_prefix: 'cf_cpp:'

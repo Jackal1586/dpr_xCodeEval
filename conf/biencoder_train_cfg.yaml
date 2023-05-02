@@ -1,0 +1,88 @@
+
+# configuration groups
+defaults:
+  - encoder: hf_bert
+  - train: biencoder_default
+  - datasets: encoder_train_default
+
+train_datasets: 
+#  - C#_code_code_train
+#  - CPP_code_code_train
+#  - D_code_code_train
+#  - Go_code_code_train
+#  - Haskell_code_code_train
+#  - Java_code_code_train
+#  - JavaScript_code_code_train
+#  - Kotlin_code_code_train
+#  - Ocaml_code_code_train
+#  - Pascal_code_code_train
+#  - Perl_code_code_train
+#  - PHP_code_code_train
+#  - Python_code_code_train
+#  - Ruby_code_code_train
+#  - Rust_code_code_train
+#  - Scala_code_code_train
+  - all_code_code_train
+dev_datasets:
+#  - C#_code_code_dev
+#  - CPP_code_code_dev
+#  - D_code_code_dev
+#  - Go_code_code_dev
+#  - Haskell_code_code_dev
+#  - Java_code_code_dev
+#  - JavaScript_code_code_dev
+#  - Kotlin_code_code_dev
+#  - Ocaml_code_code_dev
+#  - Pascal_code_code_dev
+#  - Perl_code_code_dev
+#  - PHP_code_code_dev
+#  - Python_code_code_dev
+#  - Ruby_code_code_dev
+#  - Rust_code_code_dev
+#  - Scala_code_code_dev
+  - all_code_code_dev
+output_dir:
+train_sampling_rates:
+loss_scale_factors:
+
+# Whether to lower case the input text. Set True for uncased models, False for the cased ones.
+do_lower_case: False
+
+val_av_rank_start_epoch: 10
+seed: 12345
+checkpoint_file_name: dpr_biencoder
+
+# A trained bi-encoder checkpoint file to initialize the model
+model_file:
+
+# TODO: move to a conf group
+# local_rank for distributed training on gpus
+
+# TODO: rename to distributed_rank
+local_rank: -1
+global_loss_buf_sz: 592000
+device:
+distributed_world_size:
+distributed_port:
+distributed_init_method:
+
+no_cuda: False
+n_gpu:
+fp16: False
+
+# For fp16: Apex AMP optimization level selected in ['O0', 'O1', 'O2', and 'O3']."
+#        "See details at https://nvidia.github.io/apex/amp.html
+fp16_opt_level: O1
+
+# tokens which won't be slit by tokenizer
+special_tokens:
+
+ignore_checkpoint_offset: False
+ignore_checkpoint_optimizer: False
+ignore_checkpoint_lr: False
+
+# set to >1 to enable multiple query encoders
+multi_q_encoder: False
+
+# Set to True to reduce memory footprint and loose a bit the full train data randomization if you train in DDP mode
+local_shards_dataloader: False

@@ -1,0 +1,16 @@
+*__pycache__*
+*.jsonl
+dist
+downloads
+outputs
+*.7z
+*.log
+*.txt
+dpr_deps
+*.json
+__pycache__
+dumped/
+logs/
+outputs/
+*.7z
+*.egg-info

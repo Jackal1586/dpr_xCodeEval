@@ -1,0 +1,50 @@
+# @package _group_
+
+nq_test:
+    _target_: dpr.data.retriever_data.CsvQASrc
+    file: data.retriever.qas.nq-test
+    #query_special_suffix: '?'
+
+nq_train:
+    _target_: dpr.data.retriever_data.CsvQASrc
+    file: data.retriever.qas.nq-train
+
+nq_dev:
+    _target_: dpr.data.retriever_data.CsvQASrc
+    file: data.retriever.qas.nq-dev
+
+trivia_test:
+    _target_: dpr.data.retriever_data.CsvQASrc
+    file: data.retriever.qas.trivia-test
+
+trivia_train:
+    _target_: dpr.data.retriever_data.CsvQASrc
+    file: data.retriever.qas.trivia-train
+
+trivia_dev:
+    _target_: dpr.data.retriever_data.CsvQASrc
+    file: data.retriever.qas.trivia-dev
+
+webq_test:
+    _target_: dpr.data.retriever_data.CsvQASrc
+    file: data.retriever.qas.webq-test
+
+curatedtrec_test:
+    _target_: dpr.data.retriever_data.CsvQASrc
+    file: data.retriever.qas.curatedtrec-test
+
+code_retrieval_cpp_test:
+    _target_: dpr.data.retriever_data.JsonQASrc
+    file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_test.json
+
+code_retrieval_cpp_test_null:
+    _target_: dpr.data.retriever_data.JsonQASrc
+    file: /home/zarzis/code/python/zarzis/dpr_deps/v3_cpp_qas_test_null.json
+
+code_retrieval_cpp_test_mini:
+    _target_: dpr.data.retriever_data.JsonQASrc
+    file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_test_mini.json
+
+code_retrieval_cpp_test_mini_null:
+    _target_: dpr.data.retriever_data.JsonQASrc
+    file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_test_mini_null.json
