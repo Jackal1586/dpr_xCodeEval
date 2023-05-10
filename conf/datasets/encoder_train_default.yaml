@@ -56,23 +56,23 @@ curatedtrec_dev:
   _target_: dpr.data.biencoder_data.JsonQADataset
   file: data.retriever.curatedtrec-dev
 
-C#_code_code_dev:
+CS_code_code_dev:
   _target_: dpr.data.biencoder_data.JsonlRetDataset
   file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_code_code_dev_file
-C#_code_code_test:
+CS_code_code_test:
   _target_: dpr.data.biencoder_data.JsonlRetDataset
   file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_code_code_test_file
-C#_code_code_train:
+CS_code_code_train:
   _target_: dpr.data.biencoder_data.JsonlRetDataset
   file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_code_code_train_file
 
-C#_nl_code_dev:
+CS_nl_code_dev:
   _target_: dpr.data.biencoder_data.JsonlRetDataset
   file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_nl_code_dev_file
-C#_nl_code_test:
+CS_nl_code_test:
   _target_: dpr.data.biencoder_data.JsonlRetDataset
   file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_nl_code_test_file
-C#_nl_code_train:
+CS_nl_code_train:
   _target_: dpr.data.biencoder_data.JsonlRetDataset
   file: /export/home2/sbmaruf/xCodeEval/dumped/retrieval/public/C#_nl_code_train_file
 CPP_code_code_dev:
@@ -366,6 +366,13 @@ all_code_code_train:
 all_code_code_dev:
   _target_: dpr.data.biencoder_data.JsonlRetDataset
   file: /home/sbmaruf/xCodeEval/retrieval_code_code/dev/*file*.jsonl
+
+xcl_rust_code_code_train:
+  _target_: dpr.data.biencoder_data.JsonlRetDataset
+  file: /home/sbmaruf/xCodeEval/retrieval_code_code/train/Rust_*.jsonl
+xcl_rust_code_code_dev:
+  _target_: dpr.data.biencoder_data.JsonlRetDataset
+  file: /home/sbmaruf/xCodeEval/retrieval_code_code/dev/Rust_*.jsonl
 
 
 

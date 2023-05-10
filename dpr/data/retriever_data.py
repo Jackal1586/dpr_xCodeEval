@@ -41,10 +41,11 @@ class RetrieverData(torch.utils.data.Dataset):
 		self.data_files = []
 
 	def load_data(self):
+		print(self.file, get_dpr_files(self.file))
 		self.data_files = get_dpr_files(self.file)
-		assert (
-			len(self.data_files) == 1
-		), "RetrieverData source currently works with single files only. Files specified: {}".format(self.data_files)
+		#assert (
+		#	len(self.data_files) == 1
+		#$), "RetrieverData source currently works with single files only. Files specified: {}".format(self.data_files)
 		self.file = self.data_files[0]
 
 
@@ -74,6 +75,37 @@ class QASrc(RetrieverData):
 		if self.query_special_suffix and not question.endswith(self.query_special_suffix):
 			question += self.query_special_suffix
 		return question
+
+
+class XCLQASrc(QASrc):
+	def __init__(
+		self,
+		file: str,
+		selector: DictConfig = None,
+		question_attr: str = "source_code",
+		answers_attr: str = "positive_code",
+		id_attr: str = "src_uid",
+		special_query_token: str = None,
+		query_special_suffix: str = None,
+	):
+		super().__init__(file, selector, special_query_token, query_special_suffix)
+		self.question_attr = question_attr
+		self.answers_attr = answers_attr
+		self.id_attr = id_attr
+
+	def load_data(self):
+		super().load_data()
+		data = []
+		for _file in self.data_files:
+			with jsonlines.open(_file, mode="r") as jsonl_reader:
+				for jline in jsonl_reader:
+					question = jline[self.question_attr]
+					answers = jline[self.answers_attr]["source_code"] if self.answers_attr in jline else []
+					id = None
+					if self.id_attr in jline:
+						id = jline[self.id_attr]
+					data.append(QASample(self._process_question(question), id, answers))
+		self.data = data
 
 
 class CsvQASrc(QASrc):
@@ -113,7 +145,7 @@ class CsvQASrc(QASrc):
 					id = row[self.id_col]
 				samples_count += 1
 				# if start !=-1 and samples_count<=start:
-				#    continue
+				#	 continue
 				data.append(QASample(self._process_question(question), id, answers))
 
 		if start != -1:
@@ -347,7 +379,7 @@ class JsonCodesCtxSrc(RetrieverData):
 				# for row in ifile:
 				# row = row.strip().split("\t")
 				# if row[self.id_col] == "id":
-				#     continue
+				#	  continue
 				if self.id_prefix:
 					sample_id = self.id_prefix + str(row[self.id_col])
 				else:
@@ -357,6 +389,45 @@ class JsonCodesCtxSrc(RetrieverData):
 					print("normalize is used")
 					passage = normalize_passage(passage)
 				ctxs[sample_id] = BiEncoderPassage(passage, row[self.title_col])
+
+class XCLCtxSrc(RetrieverData):
+	def __init__(
+		self,
+		file: str,
+		id_col: str = "idx",
+		text_col: str = "source_code",
+		title_col: str = None,
+		id_prefix: str = None,
+		normalize: bool = False,
+	):
+		super().__init__(file)
+		self.text_col = text_col
+		self.title_col = title_col
+		self.id_col = id_col
+		self.id_prefix = id_prefix
+		self.normalize = normalize
+
+	def load_data_to(self, ctxs: Dict[object, BiEncoderPassage]):
+		super().load_data()
+		logger.info("Reading file %s", self.file)
+		for _file in self.data_files:		
+			with jsonlines.open(_file) as ifile:
+			#reader = csv.reader(ifile, delimiter="\t")
+				#j = json.load(ifile)
+				for row in ifile:
+					# for row in ifile:
+					# row = row.strip().split("\t")
+					# if row[self.id_col] == "id":
+					#	  continue
+					if self.id_prefix:
+						sample_id = self.id_prefix + str(row[self.id_col])
+					else:
+						sample_id = row[self.id_col]
+					passage = row[self.text_col]
+					if self.normalize:
+						print("normalize is used")
+						passage = normalize_passage(passage)
+					ctxs[sample_id] = BiEncoderPassage(passage, sample_id)
 
 
 class KiltCsvCtxSrc(CsvCtxSrc):
@@ -400,7 +471,7 @@ class KiltCsvCtxSrc(CsvCtxSrc):
 					)
 				kilt_entry = {
 					"id": kilt_gold_entry["id"],
-					"input": kilt_gold_entry["input"],  # dpr_entry["question"],
+					"input": kilt_gold_entry["input"],	# dpr_entry["question"],
 					"output": [{"provenance": provenance}],
 				}
 				writer.write(kilt_entry)

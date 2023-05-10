@@ -7,8 +7,8 @@ dpr_wiki:
 
 dpr_code_cpp:
    _target_: dpr.data.retriever_data.JsonCodesCtxSrc
-    file: /home/zarzis/code/python/zarzis/dpr_deps/cpp_code_kng_base.json
-    id_prefix: 'cf_cpp:'
+   file: /home/zarzis/code/python/zarzis/dpr_deps/cpp_code_kng_base.json
+   id_prefix: 'cf_cpp:'
 
 dpr_code_cpp_mini:
     _target_: dpr.data.retriever_data.JsonCodesCtxSrc
@@ -19,3 +19,89 @@ dpr_code_cpp_small:
     _target_: dpr.data.retriever_data.JsonCodesCtxSrc
     file: /home/zarzis/code/python/zarzis/dpr_deps/cpp_kng_base_small.json
     id_prefix: 'cf_cpp:'
+
+XCL_retrieval_Javascript:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Javascript_*.jsonl
+    id_prefix: "Javascript:"
+
+XCL_retrieval_Go:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Go_*.jsonl
+    id_prefix: "Go:"
+
+XCL_retrieval_Perl:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Perl_*.jsonl
+    id_prefix: "Perl:"
+
+XCL_retrieval_Python:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Python_*.jsonl
+    id_prefix: "Python:"
+
+XCL_retrieval_Haskell:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Haskell_*.jsonl
+    id_prefix: "Haskell:"
+
+XCL_retrieval_Pascal:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Pascal_*.jsonl
+    id_prefix: "Pascal:"
+
+XCL_retrieval_C++:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/C++_*.jsonl
+    id_prefix: "C++:"
+
+XCL_retrieval_Scala:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Scala_*.jsonl
+    id_prefix: "Scala:"
+
+XCL_retrieval_D:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/D_*.jsonl
+    id_prefix: "D:"
+
+XCL_retrieval_Rust:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Rust_*.jsonl
+    id_prefix: "Rust:"
+
+XCL_retrieval_C:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/C_*.jsonl
+    id_prefix: "C:"
+
+XCL_retrieval_PHP:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/PHP_*.jsonl
+    id_prefix: "PHP:"
+
+XCL_retrieval_Kotlin:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Kotlin_*.jsonl
+    id_prefix: "Kotlin:"
+
+XCL_retrieval_Ruby:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Ruby_*.jsonl
+    id_prefix: "Ruby:"
+
+XCL_retrieval_CS:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: "/home/sbmaruf/xCodeEval/retrieval_corpus/C#_*.jsonl"
+    id_prefix: "C#:"
+
+XCL_retrieval_Java:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Java_*.jsonl
+    id_prefix: "Java:"
+
+XCL_retrieval_Ocaml:
+    _target_: dpr.data.retriever_data.XCLCtxSrc
+    file: /home/sbmaruf/xCodeEval/retrieval_corpus/Ocaml_*.jsonl
+    id_prefix: "Ocaml:"
+

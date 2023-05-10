@@ -309,11 +309,11 @@ class BertTensorizer(Tensorizer):
 
         seq_len = self.max_length
         if self.pad_to_max and len(token_ids) < seq_len:
-            token_ids = token_ids + [self.tokenizer.pad_token_id] * (seq_len - len(token_ids))
+            token_ids = token_ids + [self.tokenizer.pad_token_id or 0] * (seq_len - len(token_ids))
         if len(token_ids) >= seq_len:
             token_ids = token_ids[0:seq_len] if apply_max_len else token_ids
-            token_ids[-1] = self.tokenizer.sep_token_id
-
+            token_ids[-1] = self.tokenizer.sep_token_id or 0
+        
         return torch.tensor(token_ids)
 
     def get_pair_separator_ids(self) -> T:

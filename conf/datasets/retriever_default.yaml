@@ -48,3 +48,7 @@ code_retrieval_cpp_test_mini:
 code_retrieval_cpp_test_mini_null:
     _target_: dpr.data.retriever_data.JsonQASrc
     file: /home/maruf/zarzis/cpp_only/v3_cpp_qas_test_mini_null.json
+
+XCL_Retrieval_code_code_test:
+    _target_: dpr.data.retriever_data.XCLQASrc
+    file: /home/sbmaruf/xCodeEval/retrieval_code_code/test/*.jsonl
