@@ -72,11 +72,10 @@ shard_id=0 num_shards=1 \
 out_file=/home/maruf/zarzis/zarzis/outputs/cpp_kng_base_emb
 
 python dense_retriever_server.py \
-model_file=/home/zarzis/code/python/zarzis/dpr_deps/dpr_biencoder.39 \
-qa_dataset=code_retrieval_cpp_test_null \
-ctx_datatsets=[dpr_code_cpp] \
-encoded_ctx_files=[/home/zarzis/code/python/zarzis/dpr_deps/_0] \
-out_file=/home/zarzis/code/python/zarzis/dpr_deps/dense_retriever_out
+model_file=/home/zarzis/code/private/github/sbmaruf/dpr_xCodeEval/data/index_n_model/dpr_biencoder.39 \
+ctx_datatsets=[xcl_rust] \
+encoded_ctx_files=[/home/zarzis/code/private/github/sbmaruf/dpr_xCodeEval/data/index_n_model/emb_XCL_retrieval_Rust_0] 
+# out_file=/home/zarzis/code/python/zarzis/dpr_deps/dense_retriever_out
 
 python generate_dense_embeddings.py \
 model_file=/home/zarzis/code/python/zarzis/dpr_deps/dpr_biencoder.39 \

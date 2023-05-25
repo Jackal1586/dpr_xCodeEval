@@ -522,8 +522,8 @@ def validate_tables(
 
 def load_all_passages(ctx_sources):
     all_passages = {}
+    # logger.info(ctx_sources)
     for ctx_src in ctx_sources:
-        print(ctx_src)
         ctx_src.load_data_to(all_passages)
         logger.info("Loaded ctx data: %d", len(all_passages))
 
@@ -635,39 +635,29 @@ def load_dpr(cfg: DictConfig):
         )
         if index_path:
             retriever.index.serialize(index_path)
-
+    # logger.info(ctx_sources)
     all_passages = load_all_passages(ctx_sources)
-    global dpr_retriever__, ctxs_complete_list__, ctx_meta
-    ctx_meta = dict()
-    print("Reading meta data from:", cfg.ctx_metadata_file)
-    with open(cfg.ctx_metadata_file) as meta_rp:
-        for line in tqdm(meta_rp, desc="Loading metadata", miniters=262144):
-            _j = json.loads(line)
-            ctx_meta[_j["submission_id"]] = CtxMetaData(
-                id=_j["submission_id"],
-                tags=_j["tags"],
-                problem_id=_j["problem_id"],
-                lang=_j["lang"],
-                handle=_j["handle"],
-                verdict=_j["verdict"],
-            )
+    global dpr_retriever__, ctxs_complete_list__
+    # ctx_meta = dict()
+    # print("Reading meta data from:", cfg.ctx_metadata_file)
+    # with open(cfg.ctx_metadata_file) as meta_rp:
+    #     for line in tqdm(meta_rp, desc="Loading metadata", miniters=262144):
+    #         _j = json.loads(line)
+    #         ctx_meta[_j["submission_id"]] = CtxMetaData(
+    #             id=_j["submission_id"],
+    #             tags=_j["tags"],
+    #             problem_id=_j["problem_id"],
+    #             lang=_j["lang"],
+    #             handle=_j["handle"],
+    #             verdict=_j["verdict"],
+    #         )
             # tags_by_sub_id[_j["submission_id"]] = _j.get("tags")
     dpr_retriever__, ctxs_complete_list__ = retriever, all_passages
 
+tag_coord_map = ['number theory', 'bitmasks', 'math', 'strings', 'dp', 'implementation', 'constructive algorithms', 'geometry', 'data structures', 'binary search', 'dfs and similar', 'brute force', 'two pointers', 'sortings', 'greedy', 'graphs', 'dsu', 'graph matchings', 'trees', 'shortest paths', 'hashing', 'combinatorics', 'divide and conquer', 'interactive', 'meet-in-the-middle', 'string suffix structures', 'ternary search', '*special', 'matrices', 'flows', 'probabilities', '2-sat', 'games', 'expression parsing', 'chinese remainder theorem', 'fft', 'schedules']
 
-def init_tag_vector():  # -> Callable[[List[str]], np.ndarray]:
-    tag_coord_map: Dict[str, int] = {}
-    for mt in tqdm(ctx_meta.values(), desc="Loading tag_map"):
-        for tag in mt.tags:
-            if tag not in tag_coord_map:
-                tag_coord_map[tag] = len(tag_coord_map)
-
-    print(tag_coord_map.keys())
-
-    def get_tag_vector_from_tags(tags: List[str]) -> np.ndarray:
-        return np.array([1 if tag in tags else 0 for tag in tag_coord_map])
-
-    return get_tag_vector_from_tags
+def get_tag_vector_from_tags(tags: List[str]) -> np.ndarray:
+    return np.array([1 if tag in tags else 0 for tag in tag_coord_map])
 
 
 def _search(question, n_docs, tags):
@@ -679,18 +669,19 @@ def _search(question, n_docs, tags):
     top_results_and_scores = retriever.get_top_docs(questions_tensor.numpy(), n_docs)[0]
 
     top_results, tmp = top_results_and_scores
-
     top_codes = []
     # print(tmp, top_results)
     for tr in top_results:
-        id = int(tr.split(":")[-1])
+        ts = tr.split(":")
+        _id = ":".join((ts[0], ts[-1]))
+        meta = json.loads(ctxs[_id].title)
         top_codes.append(
             {
-                "text": ctxs[tr].text,
-                "meta": asdict(ctx_meta[id]),
+                "text": ctxs[_id].text,
+                "meta": meta,
                 "f1": f1_score(
                     get_tag_vector_from_tags(tags),
-                    get_tag_vector_from_tags(ctx_meta[id].tags),
+                    get_tag_vector_from_tags(meta["tags"]),
                 )
                 if isinstance(tags, list)
                 else None,
@@ -720,8 +711,6 @@ def main(cfg: DictConfig):
     #     # print(OmegaConf.to_yaml(cfg))
     st_time = time.time()
     load_dpr(cfg)
-    global get_tag_vector_from_tags
-    get_tag_vector_from_tags = init_tag_vector()
     logger.info("Server booted in %f sec.", time.time()-st_time)
     app.run()
 
