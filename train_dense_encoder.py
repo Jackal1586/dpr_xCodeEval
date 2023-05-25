@@ -694,7 +694,14 @@ def _do_biencoder_fwd_pass(
 
 	q_attn_mask = tensorizer.get_attn_mask(input.question_ids)
 	ctx_attn_mask = tensorizer.get_attn_mask(input.context_ids)
-
+	#print("q_attn_mask", input.question_ids,
+         #               input.question_segments,
+          #              q_attn_mask,
+           #             input.context_ids,
+            #            input.ctx_segments,
+             #           ctx_attn_mask,
+              #         	encoder_type,
+               #i         rep_positions)
 	if model.training:
 		model_out = model(
 			input.question_ids,

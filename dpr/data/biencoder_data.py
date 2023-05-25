@@ -214,9 +214,12 @@ class JsonlRetDataset(JsonQADataset):
 		logger.info("total_data_size=%d", self.total_data_size)
 		return self.total_data_size
 
+	def make_str_from_nl(self, nl):
+		return f'Description:\n{nl["description"]}\nInput specification:\n{nl["input_spec"]}\nOutput specification:\n{nl["output_spec"]}'
+
 	def convert_sample_from_xcodeeval_to_fbdpr(self, xcodeeval_sample):
 		return {
-				"question": xcodeeval_sample["source_code"],
+				"question": xcodeeval_sample["source_code"] if "source_code" in xcodeeval_sample else self.make_str_from_nl(xcodeeval_sample["nl"]),
 				"question_id": xcodeeval_sample["src_uid"],
 				"answers": [],
 				"positive_ctxs": [{

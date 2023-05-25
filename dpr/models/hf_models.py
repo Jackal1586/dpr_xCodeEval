@@ -11,7 +11,7 @@ Encoder model wrappers based on HuggingFace code
 
 import logging
 from typing import Tuple, List
-
+import numpy as np
 import torch
 import transformers
 from torch import Tensor as T
@@ -324,7 +324,10 @@ class BertTensorizer(Tensorizer):
 
     def get_attn_mask(self, tokens_tensor: T) -> T:
         return tokens_tensor != self.get_pad_id()
-
+        #return self.tokenizer.prepare_for_model(tokens_tensor)['attention_mask']
+        #input_ids = tokens_tensor.tolist()
+        #attn_mask = [np.ones(len(ids)) for ids in input_ids]
+        #return torch.tensor(attn_mask, dtype=torch.bool)
     def is_sub_word_id(self, token_id: int):
         token = self.tokenizer.convert_ids_to_tokens([token_id])[0]
         return token.startswith("##") or token.startswith(" ##")

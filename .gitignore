@@ -5,3 +5,7 @@ outputs/
 *.7z
 *.egg-info
 *.out
+data/
+*.pdf
+*.json*
+*.log

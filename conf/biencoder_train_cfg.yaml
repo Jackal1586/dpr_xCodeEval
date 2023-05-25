@@ -20,9 +20,11 @@ train_datasets:
 #  - PHP_code_code_train
 #  - Python_code_code_train
 #  - Ruby_code_code_train
-  - xcl_rust_code_code_train 
+#  - xcl_rust_code_code_train 
 #  - Scala_code_code_train
 #  - all_code_code_train
+  - all_nl_code_train
+
 dev_datasets:
 #  - C#_code_code_dev
 #  - CPP_code_code_dev
@@ -38,9 +40,10 @@ dev_datasets:
 #  - PHP_code_code_dev
 #  - Python_code_code_dev
 #  - Ruby_code_code_dev
-  - xcl_rust_code_code_dev 
+#  - xcl_rust_code_code_dev 
 #  - Scala_code_code_dev
 #  - all_code_code_dev
+  - all_nl_code_dev
 output_dir:
 train_sampling_rates:
 loss_scale_factors:

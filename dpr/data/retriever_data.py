@@ -43,10 +43,10 @@ class RetrieverData(torch.utils.data.Dataset):
 	def load_data(self):
 		print(self.file, get_dpr_files(self.file))
 		self.data_files = get_dpr_files(self.file)
-		#assert (
-		#	len(self.data_files) == 1
-		#$), "RetrieverData source currently works with single files only. Files specified: {}".format(self.data_files)
-		self.file = self.data_files[0]
+		# assert (
+		# 	len(self.data_files) == 1
+		# ), "RetrieverData source currently works with single files only. Files specified: {}".format(self.data_files)
+		self.file = self.data_files
 
 
 class QASrc(RetrieverData):
@@ -391,12 +391,12 @@ class JsonCodesCtxSrc(RetrieverData):
 				ctxs[sample_id] = BiEncoderPassage(passage, row[self.title_col])
 
 class XCLCtxSrc(RetrieverData):
-	def __init__(
+    	def __init__(
 		self,
 		file: str,
 		id_col: str = "idx",
 		text_col: str = "source_code",
-		title_col: str = None,
+		title_col: str = "title",
 		id_prefix: str = None,
 		normalize: bool = False,
 	):
@@ -428,6 +428,47 @@ class XCLCtxSrc(RetrieverData):
 						print("normalize is used")
 						passage = normalize_passage(passage)
 					ctxs[sample_id] = BiEncoderPassage(passage, sample_id)
+
+
+class XCLRetCtxSrcPriv(RetrieverData):
+	def __init__(
+		self,
+		file: str,
+		id_col: str = "idx",
+		text_col: str = "source_code",
+		title_col: str = None,
+		id_prefix: str = None,
+		normalize: bool = False,
+	):
+		super().__init__(file)
+		self.text_col = text_col
+		self.title_col = title_col
+		self.id_col = id_col
+		self.id_prefix = id_prefix
+		self.normalize = normalize
+
+	def load_data_to(self, ctxs: Dict[object, BiEncoderPassage]):
+		super().load_data()
+		logger.info("Reading file %s", self.file)
+		for _file in self.data_files:		
+			with jsonlines.open(_file) as jrp:
+				for row in jrp:
+					if self.id_prefix:
+						sample_id = self.id_prefix + str(row[self.id_col])
+					else:
+						sample_id = row[self.id_col]
+					passage = row[self.text_col]
+					if self.normalize:
+						print("normalize is used")
+						passage = normalize_passage(passage)
+					ctxs[sample_id] = BiEncoderPassage(passage, sample_id)
+					metadata = row['metadata']
+					passage = metadata.pop(self.text_col)
+					title = json.dumps(metadata)
+					if self.normalize:
+						print("normalize is used")
+						passage = normalize_passage(passage)
+					ctxs[sample_id] = BiEncoderPassage(passage, title)
 
 
 class KiltCsvCtxSrc(CsvCtxSrc):

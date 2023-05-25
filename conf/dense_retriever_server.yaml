@@ -14,14 +14,22 @@ indexers:
         _target_: dpr.indexer.faiss_indexers.DenseHNSWSQIndexer
 
 # the name of the queries dataset from the 'datasets' config group
-qa_dataset: code_retrieval_cpp_test_null
+# qa_dataset: code_retrieval_cpp_test_null
+qa_dataset: 
+
+model_file: /home/zarzis/code/private/github/sbmaruf/dpr_xCodeEval/data/index_n_model/dpr_biencoder.39
+ctx_datatsets: 
+    - xcl_rust
+encoded_ctx_files:
+    - /home/zarzis/code/private/github/sbmaruf/dpr_xCodeEval/data/index_n_model/emb_XCL_retrieval_Rust_0
+
 
 # a list of names of the passages datasets from the 'ctx_sources' config group
-ctx_datatsets: [dpr_code_cpp_small]
+# ctx_datatsets: [dpr_code_cpp_small]
 
 #Glob paths to encoded passages (from generate_dense_embeddings tool)
-encoded_ctx_files: [/home/zarzis/code/python/zarzis/dpr_deps/cpp_kng_small_bin]
-ctx_metadata_file: /home/zarzis/code/python/zarzis/dpr_deps/fixed_raw_stats.jsonl
+# encoded_ctx_files: [/home/zarzis/code/python/zarzis/dpr_deps/cpp_kng_small_bin]
+# ctx_metadata_file: /home/zarzis/code/python/zarzis/dpr_deps/fixed_raw_stats.jsonl
 
 out_file:
 # "regex" or "string"
@@ -48,7 +56,7 @@ index_path:
 kilt_out_file:
 
 # A trained bi-encoder checkpoint file to initialize the model
-model_file: /home/zarzis/code/python/zarzis/dpr_deps/dpr_biencoder.39
+# model_file: /home/zarzis/code/python/zarzis/dpr_deps/dpr_biencoder.39
 
 validate_as_tables: False
 

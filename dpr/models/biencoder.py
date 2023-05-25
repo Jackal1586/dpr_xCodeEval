@@ -114,6 +114,7 @@ class BiEncoder(nn.Module):
                 #     segments,
                 #     attn_mask
                 # )
+               	#print("attn_mask", attn_mask)
                 output = sub_model(
                     ids,
                     attn_mask
@@ -140,6 +141,13 @@ class BiEncoder(nn.Module):
         representation_token_pos=0,
     ) -> Tuple[T, T]:
         q_encoder = self.question_model if encoder_type is None or encoder_type == "question" else self.ctx_model
+        print(f"{question_ids=}")
+        print(f"{question_segments=}")
+        print(f"{question_attn_mask=}")
+        print(f"{context_ids=}")
+       	print(f"{ctx_segments=}")
+        print(f"{ctx_attn_mask=}")
+
         _q_seq, q_pooled_out, _q_hidden = self.get_representation(
             q_encoder,
             question_ids,

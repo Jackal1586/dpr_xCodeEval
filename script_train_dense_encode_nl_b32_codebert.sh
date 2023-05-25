@@ -9,9 +9,8 @@ source /home/sbmaruf/anaconda3/bin/activate xcodeeval
 
 export CUDA_VISIBLE_DEVICES='0,1,2,3'
 export HYDRA_FULL_ERROR=1
-
-
 python train_dense_encoder.py \
+    encoder=hf_bert
     train=biencoder_nq_b32 \
     output_dir=dumped_ret_xcodeeval 
 

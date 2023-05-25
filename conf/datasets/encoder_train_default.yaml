@@ -374,6 +374,20 @@ xcl_rust_code_code_dev:
   _target_: dpr.data.biencoder_data.JsonlRetDataset
   file: /home/sbmaruf/xCodeEval/retrieval_code_code/dev/Rust_*.jsonl
 
+all_nl_code_train:
+  _target_: dpr.data.biencoder_data.JsonlRetDataset
+  file: /home/sbmaruf/xCodeEval/retrieval_nl_code/train/*file*.jsonl
+all_nl_code_dev:
+  _target_: dpr.data.biencoder_data.JsonlRetDataset
+  file: /home/sbmaruf/xCodeEval/retrieval_nl_code/validation/*file*.jsonl
+
+xcl_rust_nl_code_train:
+  _target_: dpr.data.biencoder_data.JsonlRetDataset
+  file: /home/sbmaruf/xCodeEval/retrieval_nl_code/train/Rust_*.jsonl
+xcl_rust_nl_code_dev:
+  _target_: dpr.data.biencoder_data.JsonlRetDataset
+  file: /home/sbmaruf/xCodeEval/retrieval_nl_code/validation/Rust_*.jsonl
+
 
 
 # C#_code_code_dev
