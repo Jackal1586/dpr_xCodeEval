@@ -107,7 +107,7 @@ def main(cfg: DictConfig):
 
     logger.info("CFG:")
     logger.info("%s", OmegaConf.to_yaml(cfg))
-
+    exit(0)
     tensorizer, encoder, _ = init_biencoder_components(
         cfg.encoder.encoder_model_type, cfg, inference_only=True
     )
@@ -178,7 +178,7 @@ def main_ns(cfg: DictConfig):
 
     logger.info("CFG:")
     logger.info("%s", OmegaConf.to_yaml(cfg))
-
+    
     tensorizer, encoder, _ = init_biencoder_components(
         cfg.encoder.encoder_model_type, cfg, inference_only=True
     )
@@ -211,7 +211,7 @@ def main_ns(cfg: DictConfig):
 
     logger.info("reading data source: %s", cfg.ctx_src)
 
-    ctx_src = hydra.utils.instantiate(cfg.ctx_sources[cfg.ctx_src])
+    ctx_src = hydra.utils.instantiate(cfg.ctx_sources[cfg.ctx_src] if isinstance(cfg.ctx_src, str) else cfg.ctx_src)
     all_passages_dict = {}
     ctx_src.load_data_to(all_passages_dict)
     all_passages = [(k, v) for k, v in all_passages_dict.items()]

@@ -289,6 +289,34 @@ class CsvCtxSrc(RetrieverData):
 					passage = normalize_passage(passage)
 				ctxs[sample_id] = BiEncoderPassage(passage, row[self.title_col])
 
+class XCLOnlineQASrc(QASrc):
+	def __init__(
+		self,
+		file: str,
+		selector: DictConfig = None,
+		question_attr: str = "source_code",
+		answers_attr: str = "",
+		id_attr: str = "code_uid",
+		special_query_token: str = None,
+		query_special_suffix: str = None,
+		raw_data: dict = None,
+	):
+		super().__init__(file, selector, special_query_token, query_special_suffix)
+		self.question_attr = question_attr
+		self.answers_attr = answers_attr
+		self.id_attr = id_attr
+		self.raw_data = raw_data
+
+	def load_data(self):
+		# super().load_data()
+		data = []
+		for jline in self.raw_data:
+			question = jline[self.question_attr]
+			answers = jline[self.answers_attr] if self.answers_attr in jline else []
+			id = jline[self.id_attr]
+			data.append(QASample(self._process_question(question), id, answers))
+		self.data = data
+
 class XCLOnlineCtxSrc(RetrieverData):
 	def __init__(
 		self,
