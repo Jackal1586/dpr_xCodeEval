@@ -391,7 +391,7 @@ class JsonCodesCtxSrc(RetrieverData):
 				ctxs[sample_id] = BiEncoderPassage(passage, row[self.title_col])
 
 class XCLCtxSrc(RetrieverData):
-    	def __init__(
+	def __init__(
 		self,
 		file: str,
 		id_col: str = "idx",
@@ -457,11 +457,6 @@ class XCLRetCtxSrcPriv(RetrieverData):
 						sample_id = self.id_prefix + str(row[self.id_col])
 					else:
 						sample_id = row[self.id_col]
-					passage = row[self.text_col]
-					if self.normalize:
-						print("normalize is used")
-						passage = normalize_passage(passage)
-					ctxs[sample_id] = BiEncoderPassage(passage, sample_id)
 					metadata = row['metadata']
 					passage = metadata.pop(self.text_col)
 					title = json.dumps(metadata)
