@@ -1,3 +1,16 @@
+Part of this work was submitted as a requirement for the Master of Science degree in Computer Science and Applications at the Islamic University of Technology by Muhammad Abdullah Matin Khan. (The thesis or project report will be added upon publication).
+
+```
+@misc{khan2024xcodeeval,
+      title={Development of a Code Search Engine Using Natural Language Processing Techniques}, 
+      author={Mohammad Abdullah Matin Khan},
+      year={2024},
+      publication={Journal of Engineering and Technology (JET)}
+      url=TBA
+}
+```
+
+
 # Dense Passage Retrieval
 
 Dense Passage Retrieval (`DPR`) - is a set of tools and models for state-of-the-art open-domain Q&A research.
